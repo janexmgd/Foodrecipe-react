@@ -10,9 +10,8 @@
 }
 
 .navbar {
-    height: 5vh;
+    height: 10vh;
     display: flex;
-    /* width: 100%; */
     z-index: 99999;
     top: 20px;
     justify-content: center;
@@ -41,8 +40,9 @@
 
 .secondaryMenu {
     width: 30%;
-    height: 5vh;
+    height: 10vh;
     background-color: rgba(239, 200, 26, 1);
+    /* background-color: red; */
 }
 
 .secondaryMenu ul {
@@ -51,14 +51,15 @@
 
 .secondaryMenu ul li {
     padding: 10px;
-    /* padding-top: 25px; */
+    padding-top: 25px;
+    padding-left: 8vw;
 }
 
 .secondaryMenuLink {
     text-decoration: none;
     display: flex;
     align-items: center;
-    color: black;
+    color: white;
 }
 
 .secondaryMenu .icon {
@@ -71,6 +72,7 @@
     border-radius: 50px;
     margin-right: 10px;
     font-size: 14px;
+    color: black;
 }
 
 .intro {
@@ -385,39 +387,6 @@
     margin-right: 150px;
     color: #EFC81A;
 }
-
-
-/* .container4IntroBottomContentJumbotronPhotoLg {
-  
-    display: flex;
-    flex-direction: row;
-    position: absolute;
-    padding: 20px;
-    justify-content: center;
-    align-items: center;
-}
-
-.container4IntroBottomContentJumbotronPhotoLg img {
-    padding: 20px;
-    width: 200px;
-    height: 200px;
-}
-
-.container4IntroBottomContentJumbotronPhotoLgPhoto1 {
-    display: flex;
-    flex-direction: row;
-    position: absolute;
-    padding-bottom: 250px;
-    justify-content: center;
-    align-items: center;
-}
-
-.container4IntroBottomContentJumbotronPhotoLgPhoto2 {
-    padding-top: 190px;
-    display: flex;
-    flex-direction: row;
-    position: absolute;
-} */
 
 @media only screen and (max-width: 600px) {
     .primaryMenu ul li {

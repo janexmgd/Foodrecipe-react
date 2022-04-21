@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styles from "../assets/styles/index.module.css";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import photo1 from "../assets/images/ezgif-2-3982b7e365.webp";
 import photo2 from "../assets/images/ezgif-2-31054d5404.webp";
@@ -9,17 +9,17 @@ import axios from "axios";
 
 import { useEffect } from "react";
 const Index = () => {
-  const navigate = useNavigate;
-  const [search, SetSearch] = useState();
-  const pindah = navigate(`/recipe`);
-  // console.log(searchQuery);
+  const navigate = useNavigate();
+  const [querySearch, setQuerySearch] = useState("");
   const [data, setData] = useState([]);
+  const onSubmit = () => {
+    navigate("/recipe?search=" + querySearch);
+  };
   useEffect(() => {
     axios
       .get(`${process.env.REACT_APP_MY_BACKEND}/recipe/all/latest`)
       .then((res) => {
         setData(res.data.data);
-        // console.log(res.data.data);
       })
       .catch((err) => {
         console.log(err);
@@ -61,16 +61,25 @@ const Index = () => {
               <div className={styles.jumbotron}>
                 <h1>Discover Recipe & Delicious Food</h1>
                 <div>
-                  <div className={styles.formGroup}>
+                  <form
+                    className={styles.formGroup}
+                    onSubmit={() => onSubmit()}
+                  >
                     <div className={styles.iconSearch}>
                       <i className="fa fa-search"></i>
                     </div>
                     <input
                       type="text"
                       placeholder="search restaurant, food"
-                      onSubmit={navigate("/recipe")}
+                      onChange={(e) => setQuerySearch(e.target.value)}
                     />
-                  </div>
+                    <input
+                      type="submit"
+                      style={{
+                        display: "none",
+                      }}
+                    />
+                  </form>
                 </div>
               </div>
             </div>

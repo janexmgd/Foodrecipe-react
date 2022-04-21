@@ -1,15 +1,15 @@
 import axios from "axios";
 import React from "react";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import styles from "../assets/styles/search.module.css";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { Alert } from "reactstrap";
 const Search = () => {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
   const [data, setData] = useState([]);
+  const [queryParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState("");
   const onSubmit = (e) => {
     e.preventDefault();
@@ -32,14 +32,16 @@ const Search = () => {
       });
   };
   useEffect(() => {
+    setSearchQuery(queryParams.get("search"));
     const token = localStorage.getItem("token");
     const user = localStorage.getItem("user");
     if (!token || !user) {
       navigate("/login");
     }
+    console.log(queryParams.get("search"));
     //fetch api
     axios
-      .get(`${process.env.REACT_APP_MY_BACKEND}/recipe`, {
+      .get(`${process.env.REACT_APP_MY_BACKEND}/recipe?search=${searchQuery}`, {
         headers: {
           token: token,
         },
