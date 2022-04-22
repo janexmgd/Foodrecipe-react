@@ -60,7 +60,9 @@ const Register = () => {
             <div className={styles.formInput}>
               <form action="" onSubmit={(e) => onSubmit(e)}>
                 <div className={styles.textType}>
-                  <input type="image" />
+                  <div className="">
+                    <input type="file" accept=".png, .jpg" />
+                  </div>
                   <div className={styles.a}>Name</div>
                   <div className={styles.b}>
                     <input
