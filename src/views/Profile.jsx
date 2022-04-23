@@ -21,35 +21,6 @@ const Profile = () => {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  // useEffect(() => {
-  //   // get token local storage
-  //   const token = localStorage.getItem("token");
-  //   const users = localStorage.getItem("user");
-  //   console.log(`ini errornyaLine 25`);
-  //   // kondisi cek token sama user ada gak
-  //   console.log(`Line 30${isLoading}`);
-  //   if (!token || !users) {
-  //     // navigate("/login");
-  //     console.log("THX");
-  //   }
-  //   setIsLoading(true);
-  //   //fetch api my recipe
-  //   axios
-  //     .get(`${process.env.REACT_APP_MY_BACKEND}/recipe/users/my_recipe`, {
-  //       headers: {
-  //         token: token,
-  //       },
-  //     })
-  //     .then((res) => {
-  //       setData(res.data.data);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     })
-  //     .finally(() => {
-  //       setIsLoading(false);
-  //     });
-  // }, []);
   useEffect(() => {
     const token = localStorage.getItem("token");
     const users = localStorage.getItem("user");

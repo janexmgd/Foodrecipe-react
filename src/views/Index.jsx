@@ -12,6 +12,9 @@ const Index = () => {
   const navigate = useNavigate();
   const [querySearch, setQuerySearch] = useState("");
   const [data, setData] = useState([]);
+  const token = localStorage.getItem("token");
+  const user = localStorage.getItem("user");
+  const users = JSON.parse(user);
   const onSubmit = () => {
     navigate("/recipe?search=" + querySearch);
   };
@@ -43,16 +46,29 @@ const Index = () => {
             </ul>
           </div>
           <div className={styles.secondaryMenu}>
-            <ul>
-              <li>
-                <Link to="#" className={styles.secondaryMenuLink}>
-                  <div className={styles.icon}>
-                    <i className="fa fa-user"></i>
-                  </div>
-                  Login
-                </Link>
-              </li>
-            </ul>
+            {token ? (
+              <ul>
+                <li>
+                  <Link to="/profile" className={styles.secondaryMenuLink}>
+                    <div className={styles.icon}>
+                      <i className="fa fa-user"></i>
+                    </div>
+                    <div>{users.name}</div>
+                  </Link>
+                </li>
+              </ul>
+            ) : (
+              <ul>
+                <li>
+                  <Link to="/login" className={styles.secondaryMenuLink}>
+                    <div className={styles.icon}>
+                      <i className="fa fa-user"></i>
+                    </div>
+                    Login
+                  </Link>
+                </li>
+              </ul>
+            )}
           </div>
         </nav>
         <div className={styles.container}>
