@@ -43,7 +43,7 @@ const Profile = () => {
       });
     axios.get();
   }, []);
-  // //for get user
+  //for get user
   const dataUser = localStorage.getItem("user");
   const user = JSON.parse(dataUser);
   const photo =
@@ -51,6 +51,11 @@ const Profile = () => {
   const name = user === null ? "" : `${user.name}`;
   //for bootstrap
   const [activeTabs, setActiveTabs] = useState("1");
+  const logout = () => {
+    localStorage.clear();
+    alert("Logout berhasil");
+    return navigate("/");
+  };
   return (
     <>
       <Navbar />
@@ -60,6 +65,14 @@ const Profile = () => {
             <div className={styles.containerIntroJumbotronProfile}>
               <img src={photo} alt="" />
               <h1>{name}</h1>
+
+              <button
+                onClick={() => {
+                  logout();
+                }}
+              >
+                Logout
+              </button>
             </div>
             <div className="col-lg-10 d-flex flex-column justify-content-center align-content-center ms-5">
               <Nav tabs>

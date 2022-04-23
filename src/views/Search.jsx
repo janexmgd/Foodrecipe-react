@@ -6,39 +6,18 @@ import styles from "../assets/styles/search.module.css";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 const Search = () => {
-  const token = localStorage.getItem("token");
-  const navigate = useNavigate();
   const [data, setData] = useState([]);
-  const [queryParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
+  const token = localStorage.getItem("token");
+  const user = localStorage.getItem("user");
+  const navigate = useNavigate();
+  const [queryParams] = useSearchParams();
+
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(searchQuery);
-    axios
-      .get(`${process.env.REACT_APP_MY_BACKEND}/recipe?search=${searchQuery}`, {
-        headers: {
-          token: token,
-        },
-      })
-      .then((res) => {
-        if (res.data.data === null) {
-          alert(`Kata pencarian ${searchQuery} tidak ditemukan`);
-          return;
-        }
-        setData(res.data.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-  useEffect(() => {
-    setSearchQuery(queryParams.get("search"));
-    const token = localStorage.getItem("token");
-    const user = localStorage.getItem("user");
-    if (!token || !user) {
-      navigate("/login");
-    }
-    console.log(queryParams.get("search"));
+    navigate("/recipe?search=" + searchQuery);
     //fetch api
     axios
       .get(`${process.env.REACT_APP_MY_BACKEND}/recipe?search=${searchQuery}`, {
@@ -47,20 +26,54 @@ const Search = () => {
         },
       })
       .then((res) => {
+        if (res.data.data === null) {
+          setIsError(true);
+          setLoading(false);
+          return;
+        }
         setData(res.data.data);
+        setIsError(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    setLoading(false);
+  };
+  useEffect(() => {
+    if (!token || !user) {
+      navigate("/login");
+    }
+    setLoading(true);
+    let url = `${process.env.REACT_APP_MY_BACKEND}/recipe?`;
+    if (queryParams.get("search")) {
+      setSearchQuery(queryParams.get("search"));
+      url += `&search=${queryParams.get("search")}`;
+    }
+    //fetch api
+    axios
+      .get(url, {
+        headers: {
+          token: token,
+        },
+      })
+      .then((res) => {
+        if (res.data.data === null) {
+          setIsError(true);
+          setLoading(false);
+          return;
+        }
+        setData(res.data.data);
+        setLoading(false);
+        setIsError(false);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
-  const logout = () => {
-    localStorage.clear();
-    navigate("/login");
-  };
   return (
     <>
       <Navbar />
-      <div className="container-fluid pt-5">
+      <div className="container-fluid pt-5" style={{ minHeight: "80vh" }}>
         <div className="mt-5">
           <form onSubmit={(e) => onSubmit(e)} className={styles.form}>
             <input
@@ -69,29 +82,36 @@ const Search = () => {
               id=""
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search Recipe at here"
+              value={searchQuery}
             />
-            <button className="fa fa-search"></button>
+            <button type="submit" className="fa fa-search"></button>
           </form>
         </div>
-        <div className="row">
-          {data.map((item, i) => (
-            <Link
-              to={`/recipe/${item.id}`}
-              className="col-md-4 d-flex position-relative pt-5 ps-5"
-              key={i}
-            >
-              <img
-                src={`${process.env.REACT_APP_MY_BACKEND}/${item.photo}`}
-                alt=""
-                style={{
-                  width: "300px",
-                  height: "300px",
-                  borderRadius: "30px",
-                }}
-              />
-              <div className={styles.titleRecipe}>{item.title}</div>
-            </Link>
-          ))}
+        <div className="row h-100">
+          {loading ? (
+            <div>Loading</div>
+          ) : isError ? (
+            <div className={styles.noRecipe}>No relevant results found</div>
+          ) : (
+            data.map((item, i) => (
+              <Link
+                to={`/recipe/${item.id}`}
+                className="col-md-4 d-flex position-relative pt-5 ps-5"
+                key={i}
+              >
+                <img
+                  src={`${process.env.REACT_APP_MY_BACKEND}/${item.photo}`}
+                  alt=""
+                  style={{
+                    width: "300px",
+                    height: "300px",
+                    borderRadius: "30px",
+                  }}
+                />
+                <div className={styles.titleRecipe}>{item.title}</div>
+              </Link>
+            ))
+          )}
         </div>
       </div>
       <Footer />

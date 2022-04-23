@@ -180,7 +180,8 @@ const Index = () => {
               <div className={styles.container4IntroBottomContentJumbotron}>
                 <div className="row">
                   {data.map((item, i) => (
-                    <div
+                    <Link
+                      to={`/recipe/${item.id}`}
                       className="col-4 d-flex justify-content-center position-relative m-auto pt-5"
                       key={i}
                     >
@@ -193,7 +194,7 @@ const Index = () => {
                         }}
                       />
                       <div className={styles.titleRecipe}>{item.title}</div>
-                    </div>
+                    </Link>
                   ))}
                 </div>
               </div>
