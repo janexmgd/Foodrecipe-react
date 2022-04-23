@@ -13,17 +13,22 @@ const Login = () => {
   });
   const onSubmit = (e) => {
     e.preventDefault();
-    axios
-      .post(`${process.env.REACT_APP_MY_BACKEND}/login`, form)
-      .then((response) => {
-        console.log(response.data);
-        localStorage.setItem("token", response.data.data.token);
-        localStorage.setItem("user", JSON.stringify(response.data.data.user));
-        return navigate("/");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    const checkBox = document.getElementById("myCheckBox");
+    if (checkBox.checked === true) {
+      axios
+        .post(`${process.env.REACT_APP_MY_BACKEND}/login`, form)
+        .then((response) => {
+          console.log(response.data);
+          localStorage.setItem("token", response.data.data.token);
+          localStorage.setItem("user", JSON.stringify(response.data.data.user));
+          return navigate("/");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      return alert("You must aggree with terms & conditions");
+    }
   };
   return (
     <>
@@ -64,7 +69,7 @@ const Login = () => {
               </div>
               <div className={styles.checkboxContainer}>
                 <div className={styles.checkboxInput}>
-                  <input type="checkbox" name="aggrement" id="" />
+                  <input type="checkbox" name="aggrement" id="myCheckBox" />
                 </div>
                 <div className={styles.checkboxDialog}>
                   I aggre to terms & conditions
