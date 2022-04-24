@@ -36,6 +36,9 @@ const Profile = () => {
         },
       })
       .then((res) => {
+        if (res.data.data === null) {
+          return setData([]);
+        }
         setData(res.data.data);
       })
       .catch((err) => {

@@ -4,20 +4,22 @@
 }
 
 .navbar {
+    display: flex;
     font-family: airbnb;
+    top: 20px;
+    height: 10vh;
 }
 
 .navbar ul {
-    position: absolute;
-    margin-top: 0px;
+    margin-top: 19px;
+    height: 5vh;
     display: flex;
-    flex-direction: row;
     list-style-type: none;
     background-color: white;
 }
 
 .navbar ul li {
-    padding: 20px;
+    padding: 10px;
     text-decoration: none;
     color: #2E266F;
 }
