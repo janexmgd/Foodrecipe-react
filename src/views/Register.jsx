@@ -12,31 +12,46 @@ const Register = () => {
     phone: "",
     password: "",
     confirmPassword: "",
+    photo: "",
   });
+  // to catch input file photo
+  const [photo, setPhoto] = useState(null);
+
   const onSubmit = (e) => {
     e.preventDefault();
+    // to catch register checkbox
+    const checkBox = document.getElementById("registerCheckbox");
+    // console.log(photo);
+
+    const data = new FormData();
+    data.append("name", form.name);
+    data.append("email", form.email);
+    data.append("phone", form.phone);
+    data.append("password", form.password);
+    data.append("photo", form.photo);
+    if (photo) {
+      data.append("photo", photo);
+      console.log(data);
+    }
     if (
       form.name === "" ||
       form.email === "" ||
       form.phone === "" ||
-      form.password === "" ||
-      form.confirmPassword === ""
+      form.password === ""
     ) {
       alert("semua field input wajib diisi");
     }
     if (form.password !== form.confirmPassword) {
       alert("field create password dan new password harus sama");
+    } else if (checkBox.checked === false) {
+      return alert("You must aggree with terms & conditions");
     } else {
-      const body = {
-        name: form.name,
-        email: form.email,
-        phone: form.phone,
-        password: form.password,
-      };
       axios
-        .post(`${process.env.REACT_APP_MY_BACKEND}/register`, body)
+        .post(`${process.env.REACT_APP_MY_BACKEND}/register`, data, {
+          headers: { "Content-Type": "multipart/form-data" },
+        })
         .then((res) => {
-          console.log(res.data);
+          return alert("Registrasi berhasil");
         })
         .catch((err) => {
           console.log(err);
@@ -60,9 +75,6 @@ const Register = () => {
             <div className={styles.formInput}>
               <form action="" onSubmit={(e) => onSubmit(e)}>
                 <div className={styles.textType}>
-                  <div className="">
-                    <input type="file" accept=".png, .jpg" />
-                  </div>
                   <div className={styles.a}>Name</div>
                   <div className={styles.b}>
                     <input
@@ -123,10 +135,23 @@ const Register = () => {
                       }
                     />
                   </div>
+                  <div className="">
+                    <input
+                      type="file"
+                      accept=".png, .jpg"
+                      onChange={(e) => {
+                        setPhoto(e.target.files[0]);
+                      }}
+                    />
+                  </div>
                 </div>
                 <div className={styles.checkbox}>
                   <div className={styles.checkboxInput}>
-                    <input type="checkbox" name="aggrement" id="" />
+                    <input
+                      type="checkbox"
+                      name="aggrement"
+                      id="registerCheckbox"
+                    />
                   </div>
                   <div>I aggre to terms & conditions</div>
                 </div>
